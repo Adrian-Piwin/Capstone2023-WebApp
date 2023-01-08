@@ -21,16 +21,16 @@ export function POIItem(props) {
                 <input className="itemName" onChange={onItemUpdate} value={props.item.name}></input>
             </td>
             <td>
-                <input className="itemDesc" onChange={onItemUpdate}></input>
+                <input className="itemDesc" onChange={onItemUpdate} value={props.item.desc}></input>
             </td>
             <td>
-                <input className="itemLat" onChange={onItemUpdate}></input>
+                <input className="itemLat" onChange={onItemUpdate} value={props.item.lat}></input>
             </td>
             <td>
-                <input className="itemLong" onChange={onItemUpdate}></input>
+                <input className="itemLong" onChange={onItemUpdate} value={props.item.long}></input>
             </td>
             <td>
-                <input className="itemImg" onChange={onItemUpdate}></input>
+                <input className="itemImg" onChange={onItemUpdate} value={props.item.img}></input>
             </td>
         </tr>
     )

@@ -1,12 +1,22 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { POIItem } from "./POIItem";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, set, onValue } from "firebase/database";
 
 export function POIList()
 {
     const [poiItems, setPoiItems] = useState([]);
+
+    useEffect(() => {
+        //setPoiItems(getPOI())
+
+        const db = getDatabase();
+        const poiRef = ref(db, 'POI');
+            onValue(poiRef, (snapshot) => {
+                setPoiItems(snapshot.val())
+        });
+    }, [])
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -14,7 +24,7 @@ export function POIList()
         for (let i = 0; i < poiItems.length; i++){
             if (poiItems[i].name != "" && poiItems[i].desc != "" && poiItems[i].lat != "" && poiItems[i].long != "" 
             && poiItems[i].img != "" ){
-                savePOI(poiItems[i].id, poiItems[i].name, poiItems[i].desc, poiItems[i].lat, poiItems[i].long, poiItems[i].img)
+                savePOI(i, poiItems[i].name, poiItems[i].desc, poiItems[i].lat, poiItems[i].long, poiItems[i].img)
             }
         }
     }
@@ -70,3 +80,4 @@ function savePOI(id, name, desc, lat, long, img){
         img: img
     });
 }
+
