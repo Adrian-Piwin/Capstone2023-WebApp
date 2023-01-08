@@ -1,0 +1,37 @@
+import * as React from "react";
+import { useState } from "react";
+
+export function POIItem(props) {
+
+    function onItemUpdate(){
+        let tempObj = {}
+        tempObj.id = [props.id]
+        tempObj.name = document.getElementsByClassName("itemName")[props.id].value
+        tempObj.desc = document.getElementsByClassName("itemDesc")[props.id].value
+        tempObj.lat = document.getElementsByClassName("itemLat")[props.id].value
+        tempObj.long = document.getElementsByClassName("itemLong")[props.id].value
+        tempObj.img = document.getElementsByClassName("itemImg")[props.id].value
+
+        props.onItemChange(tempObj)
+    }
+
+    return(
+        <tr className="itemContainer">
+            <td>
+                <input className="itemName" onChange={onItemUpdate} value={props.item.name}></input>
+            </td>
+            <td>
+                <input className="itemDesc" onChange={onItemUpdate}></input>
+            </td>
+            <td>
+                <input className="itemLat" onChange={onItemUpdate}></input>
+            </td>
+            <td>
+                <input className="itemLong" onChange={onItemUpdate}></input>
+            </td>
+            <td>
+                <input className="itemImg" onChange={onItemUpdate}></input>
+            </td>
+        </tr>
+    )
+}

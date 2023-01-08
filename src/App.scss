@@ -1,0 +1,114 @@
+html,
+body,
+#root,
+#app {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+#app {
+    background-color: rgb(24, 24, 24);
+    display: flex;
+    flex-direction: column;
+    padding: 10%;
+    width: 80%;
+    height: 80%;
+    align-items: center;
+    gap: 150px;
+}
+
+#title{
+    width: 100%;
+    text-align: center;
+    font-size: 150px;
+    color: white;
+}
+
+#signIn{
+    border: 2px white solid;
+    width: 500px;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#signIn div{
+    color: white;
+    font-size: 50px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+#signIn p{
+    color: red;
+    font-size: 30px;
+    text-align: center;
+}
+
+#signIn input, #signIn button{
+    font-size: 30px;
+}
+
+/* ======== POI Item/List  ========*/
+
+.itemContainer td input{
+    font-size: 20px;
+}
+
+#POIList{
+    border: 2px white solid;
+    border-collapse: collapse;
+}
+
+#POIList td,  #POIList th {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    font-size: 25px;
+}
+
+#POIList th{
+    color: white;
+}
+
+#POISave {
+    font-size: 25px;
+    width: 200px;
+    height: 70px;
+    margin-top: 40px;
+}
+
+#POIContainer{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ======== SIZING  ========*/
+
+@media (max-width: 1000px) {
+    /* styles for screens that are less than 480px wide */
+    #app
+    {
+        zoom: 0.5;
+    }
+}
+
+@media (min-width: 1000px) {
+    /* styles for screens that are less than 480px wide */
+    #app
+    {
+        zoom: 0.7;
+    }
+}
+
+@media (min-width: 1500px) {
+    /* styles for screens that are less than 480px wide */
+    #app
+    {
+        zoom: 0.9;
+    }
+}
