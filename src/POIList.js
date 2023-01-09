@@ -9,12 +9,11 @@ export function POIList()
     const [poiItems, setPoiItems] = useState([]);
 
     useEffect(() => {
-        //setPoiItems(getPOI())
-
         const db = getDatabase();
         const poiRef = ref(db, 'POI');
             onValue(poiRef, (snapshot) => {
-                setPoiItems(snapshot.val())
+                if (snapshot.val() != null)
+                    setPoiItems(snapshot.val())
         });
     }, [])
 
@@ -22,9 +21,9 @@ export function POIList()
         e.preventDefault();
         
         for (let i = 0; i < poiItems.length; i++){
-            if (poiItems[i].name != "" && poiItems[i].desc != "" && poiItems[i].lat != "" && poiItems[i].long != "" 
-            && poiItems[i].img != "" ){
-                savePOI(i, poiItems[i].name, poiItems[i].desc, poiItems[i].lat, poiItems[i].long, poiItems[i].img)
+            if (poiItems[i].name != "" && poiItems[i].description != "" && poiItems[i].latitude != "" && poiItems[i].longitude != "" 
+            && poiItems[i].image != "" ){
+                savePOI(i, poiItems[i].name, poiItems[i].description, poiItems[i].latitude, poiItems[i].longitude, poiItems[i].image)
             }
         }
     }
@@ -41,7 +40,7 @@ export function POIList()
 
     var items = Array.from({length: poiItems.length + 1}, (_, i) => {
         if (i > poiItems.length-1)
-            return <POIItem key={i} id={i} onItemChange={handleItemChange} item={{name: "", desc: "", lat: "", long: "", img: ""}}/>
+            return <POIItem key={i} id={i} onItemChange={handleItemChange} item={{name: "", description: "", latitude: "", longitude: "", image: ""}}/>
         else{
             //console.log(poiItems[i])
             return <POIItem key={i} id={i} onItemChange={handleItemChange} item={poiItems[i]}/>
@@ -70,14 +69,14 @@ export function POIList()
     )
 }
 
-function savePOI(id, name, desc, lat, long, img){
+function savePOI(id, name, description, latitude, longitude, image){
     const db = getDatabase();
     set(ref(db, 'POI/' + id), {
         name: name,
-        desc: desc,
-        lat: lat,
-        long: long,
-        img: img
+        description: description,
+        latitude: latitude,
+        longitude: longitude,
+        image: image
     });
 }
 

@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useState } from "react";
 
 export function POIItem(props) {
 
@@ -7,10 +6,10 @@ export function POIItem(props) {
         let tempObj = {}
         tempObj.id = [props.id]
         tempObj.name = document.getElementsByClassName("itemName")[props.id].value
-        tempObj.desc = document.getElementsByClassName("itemDesc")[props.id].value
-        tempObj.lat = document.getElementsByClassName("itemLat")[props.id].value
-        tempObj.long = document.getElementsByClassName("itemLong")[props.id].value
-        tempObj.img = document.getElementsByClassName("itemImg")[props.id].value
+        tempObj.description = document.getElementsByClassName("itemDescription")[props.id].value
+        tempObj.latitude = document.getElementsByClassName("itemLatitude")[props.id].value
+        tempObj.longitude = document.getElementsByClassName("itemLongitude")[props.id].value
+        tempObj.image = document.getElementsByClassName("itemImage")[props.id].value
 
         props.onItemChange(tempObj)
     }
@@ -21,16 +20,16 @@ export function POIItem(props) {
                 <input className="itemName" onChange={onItemUpdate} value={props.item.name}></input>
             </td>
             <td>
-                <input className="itemDesc" onChange={onItemUpdate} value={props.item.desc}></input>
+                <input className="itemDescription" onChange={onItemUpdate} value={props.item.description}></input>
             </td>
             <td>
-                <input className="itemLat" onChange={onItemUpdate} value={props.item.lat}></input>
+                <input className="itemLatitude" onChange={onItemUpdate} value={props.item.latitude}></input>
             </td>
             <td>
-                <input className="itemLong" onChange={onItemUpdate} value={props.item.long}></input>
+                <input className="itemLongitude" onChange={onItemUpdate} value={props.item.longitude}></input>
             </td>
             <td>
-                <input className="itemImg" onChange={onItemUpdate} value={props.item.img}></input>
+                <input className="itemImage" onChange={onItemUpdate} value={props.item.image}></input>
             </td>
         </tr>
     )
