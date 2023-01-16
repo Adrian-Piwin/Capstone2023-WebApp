@@ -9,7 +9,8 @@ export function POIItem(props) {
         tempObj.description = document.getElementsByClassName("itemDescription")[props.id].value
         tempObj.latitude = document.getElementsByClassName("itemLatitude")[props.id].value
         tempObj.longitude = document.getElementsByClassName("itemLongitude")[props.id].value
-        tempObj.image = document.getElementsByClassName("itemImage")[props.id].files[0]
+        tempObj.imageObject = document.getElementsByClassName("itemImage")[props.id].files[0]
+        tempObj.imageName = tempObj.imageObject == null ? "" :  tempObj.imageObject.name;
 
         props.onItemChange(tempObj)
     }
@@ -29,7 +30,8 @@ export function POIItem(props) {
                 <input className="itemLongitude" onChange={onItemUpdate} value={props.item.longitude}></input>
             </td>
             <td>
-                <input className="itemImage" onChange={onItemUpdate} type="file" style={{color: "white"}}></input>
+                <div style={{color: "white"}}>{props.item.imageName}</div>
+                <input className="itemImage" name="test" onChange={onItemUpdate} type="file" style={{color: "white"}}></input>
             </td>
         </tr>
     )

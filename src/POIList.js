@@ -14,8 +14,9 @@ export function POIList() {
         const db = getDatabase();
         const poiRef = ref(db, 'POI');
         onValue(poiRef, (snapshot) => {
-            if (snapshot.val() != null)
+            if (snapshot.val() != null){
                 setPoiItems(snapshot.val())
+            }
         });
     }, [])
 
@@ -23,17 +24,15 @@ export function POIList() {
         e.preventDefault();
 
         for (let i = 0; i < poiItems.length; i++) {
-            if (poiItems[i].name != "" && poiItems[i].description != "" && poiItems[i].latitude != "" && poiItems[i].longitude != "") {
+            if (poiItems[i].name != "" && poiItems[i].description != "" && poiItems[i].latitude != "" && poiItems[i].longitude != "" && poiItems[i].imageObject != null) {
                 // Save text data
-                savePOI(i, poiItems[i].name, poiItems[i].description, poiItems[i].latitude, poiItems[i].longitude)
-
-                if (poiItems[i].image == undefined) continue;
+                savePOI(i, poiItems[i].name, poiItems[i].description, poiItems[i].latitude, poiItems[i].longitude, poiItems[i].imageName)
 
                 // Delete previous images
-                deleteFolder(poiItems[i].name);
+                deleteFolder(poiItems[i].name, poiItems[i].imageName);
 
                 // Save image
-                const imageRef = ref2(storage, poiItems[i].name + "/" + poiItems[i].image.name)
+                const imageRef = ref2(storage, poiItems[i].name + "/" + poiItems[i].imageName)
                 uploadBytes(imageRef, poiItems[i].image)
             }
         }
@@ -52,7 +51,7 @@ export function POIList() {
 
     var items = Array.from({ length: poiItems.length + 1 }, (_, i) => {
         if (i > poiItems.length - 1)
-            return <POIItem key={i} id={i} onItemChange={handleItemChange} item={{ name: "", description: "", latitude: "", longitude: "", image: "" }} />
+            return <POIItem key={i} id={i} onItemChange={handleItemChange} item={{ name: "", description: "", latitude: "", longitude: "", imageObject: null, imageName: "" }} />
         else {
             //console.log(poiItems[i])
             return <POIItem key={i} id={i} onItemChange={handleItemChange} item={poiItems[i]} />
@@ -79,26 +78,28 @@ export function POIList() {
     )
 }
 
-function savePOI(id, name, description, latitude, longitude) {
+function savePOI(id, name, description, latitude, longitude, imageName) {
     const db = getDatabase();
     set(ref(db, 'POI/' + id), {
         name: name,
         description: description,
         latitude: latitude,
-        longitude: longitude
+        longitude: longitude,
+        imageName: imageName
     });
 }
 
-function deleteFolder(path) {
+function deleteFolder(path, dontDelete) {
     const deleteRef = ref2(storage, path)
     listAll(deleteRef)
         .then(dir => {
-            dir.items.forEach(fileRef => deleteFile(deleteRef.fullPath, fileRef.name));
+            dir.items.forEach(fileRef => deleteFile(deleteRef.fullPath, fileRef.name, dontDelete));
         })
         .catch(error => console.log(error));
 }
 
 function deleteFile(pathToFile, fileName) {
+    if (fileName == dontDelete) return;
     const deleteRef = ref2(storage, pathToFile + "/" + fileName);
     deleteObject(deleteRef)
 }
