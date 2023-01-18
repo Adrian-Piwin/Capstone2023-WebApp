@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 import { POIItem } from "./POIItem";
 import { getDatabase, ref, set, onValue } from "firebase/database";
-import { ref as ref2, uploadBytes, listAll, deleteObject } from "firebase/storage"
+import { ref as refS, uploadBytes, listAll, deleteObject } from "firebase/storage"
 import { storage } from "./constants";
 import { Toast } from "./Utility";
 
@@ -14,7 +14,7 @@ export function POIList() {
         const db = getDatabase();
         const poiRef = ref(db, 'POI');
         onValue(poiRef, (snapshot) => {
-            if (snapshot.val() != null){
+            if (snapshot.val() != null) {
                 setPoiItems(snapshot.val())
             }
         });
@@ -32,8 +32,7 @@ export function POIList() {
                 deleteFolder(poiItems[i].name, poiItems[i].imageName);
 
                 // Save image
-                const imageRef = ref2(storage, poiItems[i].name + "/" + poiItems[i].imageName)
-                uploadBytes(imageRef, poiItems[i].image)
+                saveImage(poiItems[i].name, poiItems[i].imageName, poiItems[i].imageObject)
             }
         }
 
@@ -78,6 +77,30 @@ export function POIList() {
     )
 }
 
+async function saveImage(name, imageName, image) {
+    var imageRef = refS(storage, name + "/" + imageName)
+    var data = await getImageData(image)
+    uploadBytes(imageRef, data, { contentType: 'image/png' }).then((snapshot) => {
+        console.log('Uploaded!');
+    }).catch((error) => {
+        console.log(error);
+    });
+}
+
+function getImageData(image) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        const blob = new Blob([image]);
+        reader.readAsArrayBuffer(blob);
+        reader.onload = () => {
+            const data = new Uint8Array(reader.result);
+            resolve(data);
+        };
+        reader.onerror = reject;
+    });
+}
+
+
 function savePOI(id, name, description, latitude, longitude, imageName) {
     const db = getDatabase();
     set(ref(db, 'POI/' + id), {
@@ -90,7 +113,7 @@ function savePOI(id, name, description, latitude, longitude, imageName) {
 }
 
 function deleteFolder(path, dontDelete) {
-    const deleteRef = ref2(storage, path)
+    const deleteRef = refS(storage, path)
     listAll(deleteRef)
         .then(dir => {
             dir.items.forEach(fileRef => deleteFile(deleteRef.fullPath, fileRef.name, dontDelete));
@@ -98,8 +121,9 @@ function deleteFolder(path, dontDelete) {
         .catch(error => console.log(error));
 }
 
-function deleteFile(pathToFile, fileName) {
+function deleteFile(pathToFile, fileName, dontDelete) {
     if (fileName == dontDelete) return;
-    const deleteRef = ref2(storage, pathToFile + "/" + fileName);
+    const deleteRef = refS(storage, pathToFile + "/" + fileName);
     deleteObject(deleteRef)
+    console.log("deleteing " + pathToFile + "/" + fileName);
 }

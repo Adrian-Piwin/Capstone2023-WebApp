@@ -16,7 +16,6 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);
-export const storageRef = ref(storage, 'images');
 export const auth = getAuth(app);
 
 export const loginUsername = "admin"
