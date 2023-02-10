@@ -2,7 +2,7 @@ var path = require("path");
 var express = require("express");
 
 var PUBLIC_DIR = path.join(__dirname, "dist");
-var PORT = 3000;
+var PORT = 3002;
 var app = express();
 
 app.set('port', (process.env.PORT || PORT))
