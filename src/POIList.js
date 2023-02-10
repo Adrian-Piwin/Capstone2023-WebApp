@@ -23,6 +23,7 @@ export function POIList() {
     function handleSubmit(e) {
         e.preventDefault();
 
+        var msg = ""
         for (let i = 0; i < poiItems.length; i++) {
             if (poiItems[i].name != "" && poiItems[i].description != "" && poiItems[i].latitude != "" && poiItems[i].longitude != "" && poiItems[i].imageObject != null) {
                 // Save text data
@@ -33,10 +34,12 @@ export function POIList() {
 
                 // Save image
                 saveImage(poiItems[i].name, poiItems[i].imageName, poiItems[i].imageObject)
-            }
-        }
 
-        Toast("Saved", 3);
+                msg += "(" + i + ") " + poiItems[i].name + ": saved<br>";
+            }else
+                msg += "(" + i + ") " + poiItems[i].name + ": All fields must not be empty<br>";
+        }
+        Toast(msg, 5)
     }
 
     function handleItemChange(newItem) {
