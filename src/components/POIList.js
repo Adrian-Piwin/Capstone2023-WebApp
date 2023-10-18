@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { POIItem } from "./POIItem";
 import { getDatabase, ref, set, onValue } from "firebase/database";
 import { ref as refS, uploadBytes, listAll, deleteObject } from "firebase/storage"
-import { storage } from "./constants";
-import { Toast } from "./Utility";
+import { storage } from "../constants";
+import { Toast } from "../Utility";
 
 export function POIList() {
     const [poiItems, setPoiItems] = useState([]);

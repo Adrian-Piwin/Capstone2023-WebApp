@@ -1,39 +1,27 @@
 import * as React from "react";
 
 import { useState } from "react";
-import { POIList } from "./POIList";
-import { loginUsername, loginPassword } from "./constants";
+import { CampusConfig } from "./components/CampusConfig";
+import { SignIn } from "./components/SignIn";
 
 
 export function App() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [signInMsg, setSignInMsg] = useState("");
   const [scene, setScene] = useState(1);
+  const [lobbyID, setLobbyID] = useState("");
 
-  // Attempt signin
-  function handleSubmit(e) {
-    e.preventDefault();
-    
-    if (username == loginUsername && password == loginPassword)
-      setScene(1)
-    else
-      setSignInMsg("Incorrect Login")
-  }
+  const logIn = (userLobbyID) => {
+    setLobbyID(userLobbyID);
+    setScene(2);
+  };
 
   return (
     <div id="app">
-      <div id="title">Campus Companion</div>
+      <div id="title">Campus Quest</div>
 
-      <form id="signIn" style={{display: scene == 0 ? "flex" : "none"}} onSubmit={handleSubmit}>
-        <div>Sign In</div>
-        <input id="usernameInput" placeholder="Username" onChange={evt => setUsername(evt.target.value)}></input>
-        <input id="passwordInput" type="password" placeholder="Password" onChange={evt => setPassword(evt.target.value)}></input>
-        <button type="submit">Submit</button>
-        <p>{signInMsg} &#8203;</p>
-      </form>
-
-      <POIList style={{display: scene == 1 ? "block" : "none"}}></POIList>
+      {scene == 1 ?
+        <SignIn onLoginSuccess={logIn} style={{display: scene == 1 ? "block" : "none"}}></SignIn> :
+        <CampusConfig lobbyID={lobbyID} style={{display: scene == 2 ? "block" : "none"}}></CampusConfig>
+      }
       
     </div>
   );
