@@ -12,6 +12,7 @@ export function POIItem(props) {
     const [imgName, setImgName] = useState('');
     const [mapName, setMapName] = useState('');
     const [sendMsg, setSendMsg] = useState("");
+    const [isDeleted, setIsDeleted] = useState(false);
     
     const imgRef = useRef();
     const mapRef = useRef();
@@ -44,6 +45,20 @@ export function POIItem(props) {
         setSendMsg("Updated successfully!");
     }
 
+    const handleDelete = async () => {
+        // Call saveImg here
+        const img = await imgRef.current.deleteImage();
+        const map = await mapRef.current.deleteImage();
+
+        // Save data to database
+        var updateResponse = await dbService.deletePOI(poiID);
+        if (!updateResponse.success){
+            setSendMsg(updateResponse.msg);
+        }
+        setIsDeleted(true);
+        setSendMsg("Deleted successfully!");
+    }
+
     return(
         <div className="contentContainer">
             <div className='subContent'>
@@ -58,10 +73,17 @@ export function POIItem(props) {
                 <label>Order</label>
                 <input type="text" value={order} onChange={(e) => setOrder(e.target.value)} />
             </div>
-            <ImageComponent ref={imgRef} path={campusID + "/" + poiID + "/img"} imgName={imgName}></ImageComponent>
-            <ImageComponent ref={mapRef} path={campusID + "/" + poiID + "/map"} imgName={mapName}></ImageComponent>
+            <div className='subContent'>
+                <label>Image</label>
+                <ImageComponent ref={imgRef} path={campusID + "/" + poiID + "/img"} imgName={imgName}></ImageComponent>
+            </div>
+            <div className='subContent'>
+                <label>Map</label>
+                <ImageComponent ref={mapRef} path={campusID + "/" + poiID + "/map"} imgName={mapName}></ImageComponent>
+            </div>
             <p className="sendMsg">{sendMsg} &#8203;</p>
-            <button onClick={handleSubmit}>Save</button>
+            <button onClick={handleDelete}>Delete</button>
+            {isDeleted ? null : <button onClick={handleSubmit}>Save</button>}
         </div>
     )
 }

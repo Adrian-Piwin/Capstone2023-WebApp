@@ -9,13 +9,20 @@ export const ImageComponent = forwardRef((props, ref) => {
     const firebaseService = new FirebaseService(storage);
 
     useImperativeHandle(ref, () => ({
-        saveImage
+        saveImage, deleteImage
     }));
 
     useEffect(() => {
         if (props.imgName != null && props.imgName != "")
             loadImg();
     }, [props.imgName]);
+
+    const handleFileChange = async (event) => {
+        // Handle file input change for the img
+        var file = event.target.files[0];
+        setImgFile(file);
+        setImgURL(URL.createObjectURL(file))
+    };
 
     const loadImg = async () => {
         var response = await firebaseService.loadImage(props.path + "/" + props.imgName);
@@ -27,29 +34,28 @@ export const ImageComponent = forwardRef((props, ref) => {
         }
     };
 
-    const handleFileChange = async (event) => {
-        // Handle file input change for the img
-        var file = event.target.files[0];
-        setImgFile(file);
-        setImgURL(URL.createObjectURL(file))
-    };
-
     const saveImage = async () => {
         if (imgFile == null || imgFile == "")
             return props.imgName;
 
-        // Delete img if it exists
+        // Delete img if it exists and its not the same name
         if (props.imgName != imgFile.name && props.imgName != "" && props.imgName != null)
             await firebaseService.deleteFile(props.path + "/" + props.imgName);
 
-        // Save img to firebase
+        // Save img to firebase, replace if its the same name
         var saveResponse = await firebaseService.saveImage(props.path + "/" + imgFile.name, imgFile);
         if (!saveResponse.success){
-            console.log(saveResponse.msg);
             return null;
         }
 
         return imgFile.name;
+    }
+
+    const deleteImage = async () => {
+        if (props.imgName == null || props.imgName == "")
+            return;
+
+        await firebaseService.deleteFile(props.path + "/" + props.imgName);
     }
 
     return (

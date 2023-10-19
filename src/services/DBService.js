@@ -86,6 +86,20 @@ class DBService {
             return { success: false, msg: "Failed to connect to server" }
         }
     }
+
+    async deletePOI(poiID) {
+        try {
+            const response = await axios.delete(this.connectionString + `/api/poi?poiID=${poiID}`);
+
+            if (response.data.success) {
+                return { success: true }
+            }else{
+                return { success: false, msg: "Failed to delete POI" }
+            }
+        } catch (error) {
+            return { success: false, msg: "Failed to connect to server" }
+        }
+    }
 }
 
 export default DBService;

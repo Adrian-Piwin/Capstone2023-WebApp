@@ -62,3 +62,20 @@ exports.upsertPOI = async (req, res) => {
         res.status(500).json({ success: false, error: error.message });
     }
 };
+
+exports.deletePOI = async (req, res) => {
+    const { poiID } = req.query;
+
+    try {
+        const pool = await sql.connect(); // Get a connection from the pool
+
+        await pool
+            .request()
+            .input('poiID', sql.Int, poiID)
+            .query('DELETE FROM POI WHERE id = @poiID');
+
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+}
