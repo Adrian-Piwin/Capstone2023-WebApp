@@ -1,8 +1,6 @@
 // controllers/authController.js
 const sql = require('mssql'); // Import the mssql package
 
-// ... other code ...
-
 exports.login = async (req, res) => {
     const { username, password } = req.body;
 
@@ -23,7 +21,6 @@ exports.login = async (req, res) => {
             res.json({ success: false });
         }
     } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ success: false, error: error.message });
     }
 };

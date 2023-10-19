@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 
 const campusSchema = new mongoose.Schema({
     lobbyID: String,
-    name: String,
-    map: Buffer, // Use Buffer for storing binary data like images
+    name: String
 });
 
 module.exports = mongoose.model('Campus', campusSchema);

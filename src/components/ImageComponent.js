@@ -5,7 +5,6 @@ import FirebaseService from "../services/FirebaseService";
 export const ImageComponent = forwardRef((props, ref) => {
     const [imgFile, setImgFile] = useState('');
     const [imgURL, setImgURL] = useState('');
-    const [sendMsg, setSendMsg] = useState("");
 
     const firebaseService = new FirebaseService(storage);
 
@@ -15,7 +14,7 @@ export const ImageComponent = forwardRef((props, ref) => {
 
     useEffect(() => {
         if (props.imgName != null && props.imgName != "")
-            loadImg()
+            loadImg();
     }, [props.imgName]);
 
     const loadImg = async () => {
@@ -24,7 +23,7 @@ export const ImageComponent = forwardRef((props, ref) => {
         if (response.success){
             setImgURL(response.url);
         }else{
-            setSendMsg(response.msg);
+            console.log(response.msg);
         }
     };
 
@@ -36,7 +35,7 @@ export const ImageComponent = forwardRef((props, ref) => {
     };
 
     const saveImage = async () => {
-        if (imgFile == null)
+        if (imgFile == null || imgFile == "")
             return props.imgName;
 
         // Delete img if it exists
@@ -46,7 +45,7 @@ export const ImageComponent = forwardRef((props, ref) => {
         // Save img to firebase
         var saveResponse = await firebaseService.saveImage(props.path + "/" + imgFile.name, imgFile);
         if (!saveResponse.success){
-            setSendMsg(saveResponse.msg);
+            console.log(saveResponse.msg);
             return null;
         }
 
@@ -55,9 +54,8 @@ export const ImageComponent = forwardRef((props, ref) => {
 
     return (
         <div>
-            <img src={imgURL}></img>
+            <img className='img' src={imgURL}></img>
             <input type="file" accept=".jpg, .jpeg, .png" onChange={handleFileChange} />
-            <p className="sendMsg">{sendMsg} &#8203;</p>
         </div>
     );
 })

@@ -35,18 +35,52 @@ class DBService {
         }
     };
 
-    async updateCampus(lobbyID, name, map) {
+    async updateCampus(lobbyID, name) {
         try {
             const response = await axios.post(this.connectionString + '/api/campus', {
                 lobbyID,
-                name,
-                map
+                name
             });
 
             if (response.data.success) {
                 return { success: true }
             }else{
                 return { success: false, msg: "Failed to update campus" }
+            }
+        } catch (error) {
+            return { success: false, msg: "Failed to connect to server" }
+        }
+    }
+
+    async getPOIs(campusID) {
+        try {
+            const response = await axios.get(this.connectionString + `/api/poi/getAllPOI?campusID=${campusID}`);
+            if (response.data.success) {
+                return { success: true, pois: response.data.result }
+            }else{
+                return { success: false, msg: "Failed to get POIs" }
+            }
+        } catch (error) {
+            return { success: false, msg: "Failed to connect to server" }
+        }
+    };
+
+    async updatePOI(campusID, poiID, order, name, description, image, map) {
+        try {
+            const response = await axios.post(this.connectionString + '/api/poi', {
+                campusID,
+                poiID,
+                order,
+                name,
+                description,
+                image,
+                map
+            });
+
+            if (response.data.success) {
+                return { success: true }
+            }else{
+                return { success: false, msg: "Failed to update POI" }
             }
         } catch (error) {
             return { success: false, msg: "Failed to connect to server" }

@@ -26,8 +26,8 @@ export function SignIn(props) {
       };
 
     return (
-        <form className="container" onSubmit={handleSubmit}>
-            <div>Sign In</div>
+        <form className="contentContainer" onSubmit={handleSubmit}>
+            <div className="title">Sign In</div>
             <input id="usernameInput" placeholder="Username" onChange={evt => setUsername(evt.target.value)}></input>
             <input id="passwordInput" type="password" placeholder="Password" onChange={evt => setPassword(evt.target.value)}></input>
             <button type="submit">Submit</button>

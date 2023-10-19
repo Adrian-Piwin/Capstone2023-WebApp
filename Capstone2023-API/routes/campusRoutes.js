@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const campusController = require('../controllers/campusController');
 
-router.get('/campus', campusController.getCampusByLobbyID);
-router.post('/campus', campusController.upsertCampusByLobbyID);
+router.get('/campus', campusController.getCampus);
+router.post('/campus', campusController.upsertCampus);
 
 module.exports = router;

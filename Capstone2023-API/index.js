@@ -4,6 +4,7 @@ const sql = require('mssql'); // Import the mssql package
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const campusRoutes = require('./routes/campusRoutes');
+const poiRoutes = require('./routes/poiRoutes');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -36,6 +37,7 @@ sql.connect(sqlConfig, (err) => {
   // Routes
   app.use('/api', authRoutes);
   app.use('/api', campusRoutes);
+  app.use('/api', poiRoutes);
 
   // Start the server
   app.listen(port, () => {

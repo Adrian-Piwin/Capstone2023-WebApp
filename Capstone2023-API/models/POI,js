@@ -1,0 +1,14 @@
+// models/POI.js
+const mongoose = require('mongoose');
+
+const userSchema = new mongoose.Schema({
+  id: String,
+  campusID: String,
+  order: String,
+  name: String,
+  description: String,
+  image: String,
+  map: String
+});
+
+module.exports = mongoose.model('POI', userSchema);

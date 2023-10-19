@@ -1,7 +1,7 @@
 const sql = require('mssql'); // Import the mssql package
 
 // Function to get Campus data by lobbyID
-exports.getCampusByLobbyID = async (req, res) => {
+exports.getCampus = async (req, res) => {
     const { lobbyID } = req.query; // Use req.query to access query parameters
     try {
         const pool = await sql.connect(); // Get a connection from the pool
@@ -24,8 +24,8 @@ exports.getCampusByLobbyID = async (req, res) => {
 };
 
 // Function to insert or update Campus data by lobbyID
-exports.upsertCampusByLobbyID = async (req, res) => {
-    const { lobbyID, name, map } = req.body;
+exports.upsertCampus = async (req, res) => {
+    const { lobbyID, name } = req.body;
 
     try {
         const pool = await sql.connect(); // Get a connection from the pool
@@ -42,10 +42,9 @@ exports.upsertCampusByLobbyID = async (req, res) => {
                 .request()
                 .input('lobbyID', sql.VarChar(5), lobbyID)
                 .input('name', sql.VarChar(30), name)
-                .input('map', sql.VarChar(40), map)
-                .query('UPDATE Campus SET name = @name, map = @map WHERE lobbyID = @lobbyID');
+                .query('UPDATE Campus SET name = @name WHERE lobbyID = @lobbyID');
 
-            res.json({ success: false });
+            res.json({ success: true });
         } else {
             // Insert new Campus data
             await pool
@@ -53,11 +52,11 @@ exports.upsertCampusByLobbyID = async (req, res) => {
                 .input('lobbyID', sql.VarChar(5), lobbyID)
                 .input('name', sql.VarChar(30), name)
                 .input('map', sql.VarChar(40), map)
-                .query('INSERT INTO Campus (lobbyID, name, map) VALUES (@lobbyID, @name, @map)');
+                .query('INSERT INTO Campus (lobbyID, name) VALUES (@lobbyID, @name)');
 
-            res.json({ success: false });
+            res.json({ success: true });
         }
     } catch (error) {
-        res.status(500).json({ error: error });
+        res.status(500).json({ success: false, error: error.message });
     }
 };
