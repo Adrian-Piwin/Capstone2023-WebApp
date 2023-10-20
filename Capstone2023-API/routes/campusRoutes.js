@@ -5,5 +5,6 @@ const campusController = require('../controllers/campusController');
 
 router.get('/campus', campusController.getCampus);
 router.post('/campus', campusController.upsertCampus);
+router.post('/campus/toggleGame', campusController.toggleGame);
 
 module.exports = router;

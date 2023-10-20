@@ -7,6 +7,7 @@ import { POIContainer } from './POIContainer';
 export function CampusConfig({ lobbyID }) {
     const [campusID, setCampusID] = useState('');
     const [name, setName] = useState('');
+    const [gameToggled, setGameToggled] = useState('');
     const [sendMsg, setSendMsg] = useState("");
 
     const dbService = new DBService(apiURL);
@@ -21,10 +22,21 @@ export function CampusConfig({ lobbyID }) {
         if (response.success){
             setCampusID(response.campus.id);
             setName(response.campus.name);
+            setGameToggled(response.campus.gameStarted);
         }else{
             setSendMsg(response.msg);
         }
     };
+
+    const handleToggleGame = async () => {
+        // Save data to database
+        var updateResponse = await dbService.toggleGame(lobbyID, gameToggled == 1 ? '0' : '1');
+        if (!updateResponse.success){
+            setSendMsg(updateResponse.msg);
+        }
+        setGameToggled(!gameToggled)
+        setSendMsg(!gameToggled ? "Game Started!" : "Game Stopped!");
+    }
 
     const handleSubmit = async () => {
         // Save data to database
@@ -40,10 +52,11 @@ export function CampusConfig({ lobbyID }) {
         <div id="configContainer">
             <div className="contentContainer">
                 <div className='subContent'>
-                    <div>Name</div>
+                    <label>Name</label>
                     <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
                 </div>
                 <p className="sendMsg">{sendMsg} &#8203;</p>
+                <button onClick={handleToggleGame}>{!gameToggled ? "Start" : "End"} Game</button>
                 <button onClick={handleSubmit}>Save</button>
             </div>
             <POIContainer campusID={campusID} />

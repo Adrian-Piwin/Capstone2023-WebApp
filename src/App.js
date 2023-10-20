@@ -16,7 +16,7 @@ export function App() {
 
   return (
     <div id="app">
-      <div id="title">Campus Quest</div>
+      <h1>Campus Quest</h1>
 
       {scene == 1 ?
         <SignIn onLoginSuccess={logIn} style={{display: scene == 1 ? "block" : "none"}}></SignIn> :

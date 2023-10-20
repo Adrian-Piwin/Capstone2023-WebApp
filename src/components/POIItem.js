@@ -82,7 +82,8 @@ export function POIItem(props) {
                 <ImageComponent ref={mapRef} path={campusID + "/" + poiID + "/map"} imgName={mapName}></ImageComponent>
             </div>
             <p className="sendMsg">{sendMsg} &#8203;</p>
-            <button onClick={handleDelete}>Delete</button>
+            
+            {isDeleted ? null : <button onClick={handleDelete}>Delete</button>}
             {isDeleted ? null : <button onClick={handleSubmit}>Save</button>}
         </div>
     )

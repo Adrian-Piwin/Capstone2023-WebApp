@@ -52,6 +52,23 @@ class DBService {
         }
     }
 
+    async toggleGame(lobbyID, toggle){
+        try {
+            const response = await axios.post(this.connectionString + '/api/campus/toggleGame', {
+                lobbyID,
+                toggle
+            });
+
+            if (response.data.success) {
+                return { success: true }
+            }else{
+                return { success: false, msg: "Failed to toggle on/off game" }
+            }
+        } catch (error) {
+            return { success: false, msg: "Failed to connect to server" }
+        }
+    }
+
     async getPOIs(campusID) {
         try {
             const response = await axios.get(this.connectionString + `/api/poi/getAllPOI?campusID=${campusID}`);

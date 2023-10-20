@@ -60,3 +60,21 @@ exports.upsertCampus = async (req, res) => {
         res.status(500).json({ success: false, error: error.message });
     }
 };
+
+exports.toggleGame = async (req, res) => {
+    const { lobbyID, toggle } = req.body;
+
+    try {
+        const pool = await sql.connect(); // Get a connection from the pool
+
+        await pool
+            .request()
+            .input('lobbyID', sql.VarChar(5), lobbyID)
+            .input('toggle', sql.VarChar(1), toggle)
+            .query('UPDATE Campus SET gameStarted = @toggle WHERE lobbyID = @lobbyID');
+
+            res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+}
