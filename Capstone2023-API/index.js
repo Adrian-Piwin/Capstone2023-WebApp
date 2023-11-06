@@ -5,6 +5,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const campusRoutes = require('./routes/campusRoutes');
 const poiRoutes = require('./routes/poiRoutes');
+const playerRoutes = require('./routes/playerRoutes');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -38,6 +39,7 @@ sql.connect(sqlConfig, (err) => {
   app.use('/api', authRoutes);
   app.use('/api', campusRoutes);
   app.use('/api', poiRoutes);
+  app.use('/api', playerRoutes);
 
   // Start the server
   app.listen(port, () => {

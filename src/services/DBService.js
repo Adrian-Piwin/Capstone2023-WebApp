@@ -117,6 +117,19 @@ class DBService {
             return { success: false, msg: "Failed to connect to server" }
         }
     }
+
+    async getPlayers(lobbyID) {
+        try {
+            const response = await axios.get(this.connectionString + `/api/player/getPlayers?lobbyID=${lobbyID}`);
+            if (response.data.success) {
+                return { success: true, players: response.data.result }
+            }else{
+                return { success: false, msg: "Failed to get players" }
+            }
+        } catch (error) {
+            return { success: false, msg: "Failed to connect to server" }
+        }
+    };
 }
 
 export default DBService;

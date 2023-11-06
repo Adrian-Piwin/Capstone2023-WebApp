@@ -75,6 +75,29 @@ button{
     gap: 20px;
 }
 
+#configSubContainer
+{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+}
+
+/* ======== Player  ========*/
+
+#playerSubContainer{
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.playerItem{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 /* ======== POI Item/List  ========*/
 
 #poiContainer {

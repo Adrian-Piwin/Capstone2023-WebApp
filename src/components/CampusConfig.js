@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { apiURL } from "../constants";
 import DBService from "../services/DBService";
 import { POIContainer } from './POIContainer';
+import { PlayerContainer } from './PlayerContainer';
 
 export function CampusConfig({ lobbyID }) {
     const [campusID, setCampusID] = useState('');
@@ -50,14 +51,17 @@ export function CampusConfig({ lobbyID }) {
 
     return (
         <div id="configContainer">
-            <div className="contentContainer">
-                <div className='subContent'>
-                    <label>Name</label>
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+            <div id="configSubContainer">
+                <div className="contentContainer">
+                    <div className='subContent'>
+                        <label>Campus Name</label>
+                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+                    </div>
+                    <p className="sendMsg">{sendMsg} &#8203;</p>
+                    <button onClick={handleToggleGame}>{!gameToggled ? "Start" : "End"} Game</button>
+                    <button onClick={handleSubmit}>Save</button>
                 </div>
-                <p className="sendMsg">{sendMsg} &#8203;</p>
-                <button onClick={handleToggleGame}>{!gameToggled ? "Start" : "End"} Game</button>
-                <button onClick={handleSubmit}>Save</button>
+                <PlayerContainer lobbyID={lobbyID} campusID={campusID} />
             </div>
             <POIContainer campusID={campusID} />
         </div>

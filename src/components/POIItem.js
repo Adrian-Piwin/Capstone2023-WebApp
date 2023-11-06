@@ -70,7 +70,7 @@ export function POIItem(props) {
                 <textarea style={{height: '100px', resize: 'none' }} type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
             </div>
             <div className='subContent'>
-                <label>Order</label>
+                <label>Location Order</label>
                 <input type="text" value={order} onChange={(e) => setOrder(e.target.value)} />
             </div>
             <div className='subContent'>
