@@ -98,6 +98,21 @@ button{
     justify-content: space-between;
 }
 
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #272727;
+  }
+
 /* ======== POI Item/List  ========*/
 
 #poiContainer {

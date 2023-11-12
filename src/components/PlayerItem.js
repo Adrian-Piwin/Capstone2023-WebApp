@@ -12,18 +12,21 @@ export function PlayerItem(props) {
     }, [props.item]);
 
     const getStatus = () => {
-        console.log(props)
-        if (status == null || status == ""){
-            return "Ready"
+        if (status == 1){
+            return "Start"
         }else {
-            return "Current Location Target: " + props.poiRef[status].name
+            return status
         }
     }
 
     return(
-        <div className='playerItem'>
-            <label>{name}</label>
-            <label>{getStatus()}</label>
-        </div>
+        <tr>
+            <td>
+                <label>{name}</label>
+            </td>
+            <td>
+                <label>{getStatus()}</label>
+            </td>
+        </tr>
     )
 }

@@ -18,7 +18,7 @@ export function SignIn(props) {
     const handleLogin = async () => {
         var response = await dbService.login(username, password);
         if (response.success){
-            props.onLoginSuccess(response.lobbyID);
+            props.onLoginSuccess(response.lobbyID, username);
         }
         else{
             setSignInMsg(response.msg)

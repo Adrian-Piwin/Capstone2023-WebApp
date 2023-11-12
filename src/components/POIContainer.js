@@ -31,7 +31,7 @@ export function POIContainer({ campusID }) {
 
     return (
         <div id='poiContainer'>
-            <button style={{maxWidth: "200px", marginLeft: "50%", transform: "translateX(-50%)"}} onClick={addPOI}>Add Location</button>
+            <button style={{marginTop: "25px", maxWidth: "200px", marginLeft: "50%", transform: "translateX(-50%)"}} onClick={addPOI}>Add Location</button>
             <div id='poiSubContainer'>
                 {items}
             </div>

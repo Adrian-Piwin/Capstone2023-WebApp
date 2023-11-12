@@ -5,6 +5,26 @@ class DBService {
         this.connectionString = connectionString;
     }
 
+    async postRequest(command){
+        try {
+            const response = await axios.post(this.connectionString + '/api/admin/sendPostCommand', {
+                command
+            });
+            return response.data.success ? "Success" : "Failed";
+        } catch (error) {
+            return "Failed to connect to server" 
+        }
+    }
+
+    async getRequest(command){
+        try {
+            const response = await axios.get(this.connectionString + `/api/admin/sendGetCommand?command=${command}`);
+            return JSON.stringify(response.data.result);
+        } catch (error) {
+            return "Failed to connect to server" 
+        }
+    }
+
     async login(username, password) {
         try {
             const response = await axios.post(this.connectionString + '/api/login', {

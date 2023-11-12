@@ -15,12 +15,6 @@ export function PlayerContainer({ lobbyID, campusID }) {
         }
     }, [lobbyID]);
 
-    useEffect(() => {
-        if (campusID != null && campusID != ""){
-            loadPOIs();
-        }
-    }, [campusID]);
-
     const loadPlayers = async () => {
         var response = await dbService.getPlayers(lobbyID);
         if (response.success) {
@@ -30,17 +24,8 @@ export function PlayerContainer({ lobbyID, campusID }) {
         }
     }
 
-    const loadPOIs = async () => {
-        var response = await dbService.getPOIs(campusID);
-        if (response.success) {
-            setPoiItems(response.pois);
-        } else {
-            console.log(response.msg);
-        }
-    }
-
     var items = Array.from({ length: players.length }, (_, i) => {
-        return <PlayerItem key={i} item={players[i]} poiRef={poiItems} />
+        return <PlayerItem key={i} item={players[i]} />
     });
 
     return (
@@ -49,12 +34,22 @@ export function PlayerContainer({ lobbyID, campusID }) {
                 <label>Lobby Code</label>
                 <label>{lobbyID}</label>
             </div>
-            <div className='subContent'>
-                <label>Players</label>
-                <div id='playerSubContainer'>
-                    {items}
-                </div>
+            <div className='subContent' style={{maxHeight: "400px", overflowY: "scroll"}}>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>
+                                <label>Player</label>
+                            </th>
+                            <th>
+                                <label>Location</label>
+                            </th>
+                        </tr>
+                        {items}
+                    </tbody>
+                </table>
             </div>
+            <button onClick={loadPlayers}>Refresh</button>
         </div>
     );
 };
