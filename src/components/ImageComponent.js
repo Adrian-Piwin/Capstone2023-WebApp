@@ -1,10 +1,12 @@
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { storage } from "../constants";
 import FirebaseService from "../services/FirebaseService";
+import ImageMarker from './ImageMarker';
 
 export const ImageComponent = forwardRef((props, ref) => {
     const [imgFile, setImgFile] = useState('');
     const [imgURL, setImgURL] = useState('');
+    const [enableMapEditor, setEnableMapEditor] = useState(false);
 
     const firebaseService = new FirebaseService(storage);
 
@@ -58,10 +60,19 @@ export const ImageComponent = forwardRef((props, ref) => {
         await firebaseService.deleteFile(props.path + "/" + props.imgName);
     }
 
+    const handleMapUpload = (file) => 
+    {
+        setImgFile(file);
+        setImgURL(URL.createObjectURL(file))
+        setEnableMapEditor(false)
+    }
+
     return (
         <div>
             <img className='img' src={imgURL}></img>
-            <input type="file" accept=".jpg, .jpeg, .png" onChange={handleFileChange} />
+            { props.type == "img" ? <input type="file" accept=".jpg, .jpeg, .png" onChange={handleFileChange} /> : null}
+            { props.type == "map" ? <button onClick={() => setEnableMapEditor(true)}>Upload Map</button> : null}
+            { enableMapEditor ? <ImageMarker onNewImage={handleMapUpload} closeThis={() => setEnableMapEditor(false)} /> : null}
         </div>
     );
 })

@@ -75,11 +75,11 @@ export function POIItem(props) {
             </div>
             <div className='subContent'>
                 <label>Image</label>
-                <ImageComponent ref={imgRef} path={campusID + "/" + poiID + "/img"} imgName={imgName}></ImageComponent>
+                <ImageComponent ref={imgRef} path={campusID + "/" + poiID + "/img"} imgName={imgName} type={"img"}></ImageComponent>
             </div>
             <div className='subContent'>
                 <label>Map</label>
-                <ImageComponent ref={mapRef} path={campusID + "/" + poiID + "/map"} imgName={mapName}></ImageComponent>
+                <ImageComponent ref={mapRef} path={campusID + "/" + poiID + "/map"} imgName={mapName} type={"map"}></ImageComponent>
             </div>
             <p className="sendMsg">{sendMsg} &#8203;</p>
             
