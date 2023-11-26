@@ -5,7 +5,6 @@ import { PlayerItem } from './PlayerItem';
 
 export function PlayerContainer({ lobbyID, campusID }) {
     const [players, setPlayers] = useState([]);
-    const [poiItems, setPoiItems] = useState([]);
 
     const dbService = new DBService(apiURL);
 

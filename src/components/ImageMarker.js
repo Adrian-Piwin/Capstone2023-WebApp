@@ -19,7 +19,7 @@ function ImageMarker({ onNewImage, closeThis }) {
         const rect = imageRef.current.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
-        setMarkers(currentMarkers => [...currentMarkers, { x, y: y + 70 }]);
+        setMarkers(currentMarkers => [...currentMarkers, { x, y }]);
     };
 
     const clearMarkers = () => {
@@ -44,20 +44,20 @@ function ImageMarker({ onNewImage, closeThis }) {
             canvas.width = image.width;
             canvas.height = image.height;
             ctx.drawImage(image, 0, 0);
-            drawMarkers(ctx);
+            drawMarkers(ctx, 0);
             const newImageSrc = canvas.toDataURL('image/png');
             const newFile = dataURLtoFile(newImageSrc, 'marked-image.png');
             onNewImage(newFile);
         };
     };
 
-    const drawMarkers = (ctx) => 
+    const drawMarkers = (ctx, yAdjustment) => 
     {
         markers.forEach((marker, index) => {
             // Markers
-            ctx.fillStyle = index === 0 ? 'blue' : 'red';
+            ctx.fillStyle = 'red';
             ctx.beginPath();
-            ctx.arc(marker.x, marker.y, 10, 0, 2 * Math.PI); // Bigger dot
+            ctx.arc(marker.x, marker.y + yAdjustment, 10, 0, 2 * Math.PI); // Bigger dot
             ctx.fill();
 
             // Preparing to draw text with background
@@ -69,11 +69,11 @@ function ImageMarker({ onNewImage, closeThis }) {
 
             // Draw black background rectangle for text
             ctx.fillStyle = 'black';
-            ctx.fillRect(marker.x - 50 - 5, marker.y - 20 - fontSize, textWidth + 10, textHeight);
+            ctx.fillRect(marker.x - 50 - 5, marker.y + yAdjustment - 20 - fontSize, textWidth + 10, textHeight);
 
             // Draw text over the rectangle
             ctx.fillStyle = 'white';
-            ctx.fillText(text, marker.x - 50, marker.y - 20);
+            ctx.fillText(text, marker.x - 50, marker.y + yAdjustment - 20);
         });
     }
 
@@ -84,7 +84,7 @@ function ImageMarker({ onNewImage, closeThis }) {
             canvas.width = imageRef.current.clientWidth;
             canvas.height = imageRef.current.clientHeight;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawMarkers(ctx);
+            drawMarkers(ctx, 70);
         }
     }, [markers, imageSrc]);
 

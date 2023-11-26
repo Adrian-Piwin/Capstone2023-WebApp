@@ -14,7 +14,8 @@ export function PlayerItem(props) {
     const getStatus = () => {
         if (status == 1){
             return "Start"
-        }else {
+        }
+        else {
             return status
         }
     }
